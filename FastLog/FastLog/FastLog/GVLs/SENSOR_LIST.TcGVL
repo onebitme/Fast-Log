@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <GVL Name="SENSOR_LIST" Id="{2d4b157d-14c0-4da9-93dc-af2be5b7f98c}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	
+	AInput_1  AT %I* : DINT;
+	AInput_2  AT %I* : DINT;
+	AInput_3  AT %I* : DINT;
+	AInput_4  AT %I* : DINT;
+	AInput_5  AT %I* : DINT;
+	AInput_6  AT %I* : DINT;
+	AInput_7  AT %I* : DINT;
+	AInput_8  AT %I* : DINT;
+	AInput_9  AT %I* : DINT;
+	AInput_10 AT %I* : DINT;
+	AInput_11 AT %I* : DINT;
+	AInput_12 AT %I* : DINT;
+	AInput_13 AT %I* : DINT;
+	AInput_14 AT %I* : DINT;
+	AInput_15 AT %I* : DINT;
+	AInput_16 AT %I* : DINT;
+	AInput_17 AT %I* : DINT;
+	AInput_18 AT %I* : DINT;
+	AInput_19 AT %I* : DINT;
+	AInput_20 AT %I* : DINT;
+	
+	AInput_21 AT %I* : DINT;
+	AInput_22 AT %I* : DINT;
+	AInput_23 AT %I* : DINT;
+	AInput_24 AT %I* : DINT;
+	AInput_25 AT %I* : DINT;
+	AInput_26 AT %I* : DINT;
+	AInput_27 AT %I* : DINT;
+	AInput_28 AT %I* : DINT;
+	AInput_29 AT %I* : DINT;
+	AInput_30 AT %I* : DINT;
+	
+	AInput_31 AT %I* : DINT;
+	AInput_32 AT %I* : DINT;
+	AInput_33 AT %I* : DINT;
+	AInput_34 AT %I* : DINT;
+	AInput_35 AT %I* : DINT;
+	AInput_36 AT %I* : DINT;
+	AInput_37 AT %I* : DINT;
+	AInput_38 AT %I* : DINT;
+	AInput_39 AT %I* : DINT;
+	AInput_40 AT %I* : DINT;
+	
+	AInput_41 AT %I* : DINT;
+	AInput_42 AT %I* : DINT;
+	AInput_43 AT %I* : DINT;
+	AInput_44 AT %I* : DINT;
+	AInput_45 AT %I* : DINT;
+	AInput_46 AT %I* : DINT;
+	AInput_47 AT %I* : DINT;
+	AInput_48 AT %I* : DINT;
+	AInput_49 AT %I* : DINT;
+	AInput_50 AT %I* : DINT;
+	
+	AInput_51 AT %I* : DINT;
+	AInput_52 AT %I* : DINT;
+	AInput_53 AT %I* : DINT;
+	AInput_54 AT %I* : DINT;
+	AInput_55 AT %I* : DINT;
+	AInput_56 AT %I* : DINT;
+	AInput_57 AT %I* : DINT;
+	AInput_58 AT %I* : DINT;
+	AInput_59 AT %I* : DINT;
+	AInput_60 AT %I* : DINT;
+
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

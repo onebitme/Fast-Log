@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <Task Name="FastSample" Id="{f341392c-00d5-4611-a1d9-02a76dee28a0}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>1000</CycleTime>
+    <Priority>6</Priority>
+    <PouCall>
+      <Name>PRG_FastSample</Name>
+    </PouCall>
+    <TaskFBGuid>{7cac357f-a759-4267-9d47-6d6f6e9b76a1}</TaskFBGuid>
+    <Fb_init>{0ff180e9-1758-4fea-b498-d68045911ed0}</Fb_init>
+    <Fb_exit>{4914acd8-a2d5-492b-afc2-c32c40051a56}</Fb_exit>
+    <CycleUpdate>{00a86287-2732-4173-8efa-313dc5ec5eca}</CycleUpdate>
+    <PostCycleUpdate>{bc92cada-4364-45b1-b4a8-6201d18bb421}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

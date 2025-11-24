@@ -1,0 +1,271 @@
+<?xml version="1.0"?>
+<TcEventSources Version="2">
+	<Source>
+		<GUID>{28111931-0002-0000-5230-4B1A00001900}</GUID>
+		<Name LcId="1031">EL6731 PROFIBUS DP Master</Name>
+		<Name LcId="1033">EL6731 PROFIBUS DP Master</Name>
+		<Event>
+			<Id>1</Id>
+			<Message LcId="1033">Output Event was not received (0x1C32:0B = {0})</Message>
+		</Event>
+		<Event>
+			<Id>2</Id>
+			<Message LcId="1033">Input Event was not received (0x1C33:0B = {0})</Message>
+		</Event>
+		<Event>
+			<Id>3</Id>
+			<Message LcId="1033">SYNC0 Event was received too early (0x1C32:0D = {0})</Message>
+		</Event>
+		<Event>
+			<Id>4</Id>
+			<Message LcId="1033">SYNC1 Event was received too early (0x1C32:0D = {0})</Message>
+		</Event>
+		<Event>
+			<Id>5</Id>
+			<Message LcId="1033">Cycle exceeded (Cycle time = {0} µs)</Message>
+		</Event>
+		<Event>
+			<Id>128</Id>
+			<Message LcId="1033">Last DP Cycle is still running (0x1C32:0C = {0})</Message>
+		</Event>
+		<Event>
+			<Id>129</Id>
+			<Message LcId="1033">Last Cycle is still running (0x1C32:0C = {0})</Message>
+		</Event>
+		<Event>
+			<Id>130</Id>
+			<Message LcId="1033">PROFIBUS MC cycle was started too late (Failed Counter = {0})</Message>
+		</Event>
+		<Event>
+			<Id>131</Id>
+			<Message LcId="1033">Outputs were not copied because last cycle was not finished (0x1C32:0C = {0})</Message>
+		</Event>
+		<Event>
+			<Id>192</Id>
+			<Message LcId="1033">Master has no Token when starting the DP cycle</Message>
+		</Event>
+		<Event>
+			<Id>193</Id>
+			<Message LcId="1033">Master has left the Token Ring</Message>
+		</Event>
+		<Event>
+			<Id>194</Id>
+			<Message LcId="1033">Bus Error with Code 0x{0,x} received</Message>
+		</Event>
+		<Event>
+			<Id>258</Id>
+			<Message LcId="1033">DP Slave {0} has left the Data-Exchange because of no answer</Message>
+		</Event>
+		<Event>
+			<Id>260</Id>
+			<Message LcId="1033">DP Slave {0} has left the Data-Exchange because of an invalid response telegram</Message>
+		</Event>
+		<Event>
+			<Id>263</Id>
+			<Message LcId="1033">DP Slave {0} has left the Data-Exchange because of a configuration fault</Message>
+		</Event>
+		<Event>
+			<Id>267</Id>
+			<Message LcId="1033">DP Slave {0} has left the Data-Exchange because of a physical fault in the response telegram</Message>
+		</Event>
+		<Event>
+			<Id>270</Id>
+			<Message LcId="1033">DP Slave {0} has left the Data-Exchange because of a wrong telegram</Message>
+		</Event>
+		<Event>
+			<Id>271</Id>
+			<Message LcId="1033">DP Slave {0} has left the Data-Exchange because of a RR response telegram</Message>
+		</Event>
+		<Event>
+			<Id>273</Id>
+			<Message LcId="1033">DP Slave {0} has left the Data-Exchange because of an unexpected telegram</Message>
+		</Event>
+		<Event>
+			<Id>32768</Id>
+			<Message LcId="1033">DP Slave {0} has re-entered Data-Exchange</Message>
+		</Event>
+		<Property>
+			<Name>DisplayTxtId</Name>
+			<Value>true</Value>
+		</Property>
+	</Source>
+	<Source>
+		<GUID>{28111931-0002-0000-C976-215000001300}</GUID>
+		<Name LcId="1031">ELM3148-0000 8K. Ana. Eingang +/-10V, +/-20mA, 24 bit, hochgenau</Name>
+		<Name LcId="1033">ELM3148-0000 8Ch. Ana. Input +/-10V, +/-20mA, 24 bit, high precision</Name>
+		<Event>
+			<Id>4359</Id>
+			<Message LcId="1031">Die ausgewählte Funktion kann nicht ausgeführt werden.</Message>
+			<Message LcId="1033">The selected operation is not possible</Message>
+		</Event>
+		<Event>
+			<Id>4360</Id>
+			<Message LcId="1031">Selbsttest erfolgreich durchgeführt. Gerät ist betriebsbereit.</Message>
+			<Message LcId="1033">Selftest completed successfully. Device ready.</Message>
+		</Event>
+		<Event>
+			<Id>4368</Id>
+			<Message LcId="1031">Einstellungen wurden automatisch auf Standardwerte zurückgesetzt</Message>
+			<Message LcId="1033">Settings were reset to default values automatically</Message>
+		</Event>
+		<Event>
+			<Id>5505</Id>
+			<Message LcId="1031">Verdrahtung von Kanal {0} ok.</Message>
+			<Message LcId="1033">Wiring of channel {0} ok.</Message>
+		</Event>
+		<Event>
+			<Id>5893</Id>
+			<Message LcId="1031"><![CDATA[Prozessorauslastung ist wieder im normalen Bereich (< 85%)]]></Message>
+			<Message LcId="1033"><![CDATA[CPU usage returns in normal range (< 85%)]]></Message>
+		</Event>
+		<Event>
+			<Id>5894</Id>
+			<Message LcId="1031">Kanal {0} ist nicht mehr in Sättigung</Message>
+			<Message LcId="1033">Channel {0} is not in saturation anymore</Message>
+		</Event>
+		<Event>
+			<Id>5895</Id>
+			<Message LcId="1031">Kanal {0} ist nicht mehr überlastet</Message>
+			<Message LcId="1033">Channel {0} is not in overload anymore</Message>
+		</Event>
+		<Event>
+			<Id>5898</Id>
+			<Message LcId="1031">Es liegt kein Messbereichsfehler mehr vor (Kanal {0})</Message>
+			<Message LcId="1033">No channel range error anymore (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>5900</Id>
+			<Message LcId="1031">Abgleichdaten wurden gespeichert</Message>
+			<Message LcId="1033">Calibration data saved</Message>
+		</Event>
+		<Event>
+			<Id>5902</Id>
+			<Message LcId="1031">Gerätetemperatur ist wieder ok</Message>
+			<Message LcId="1033">No overtemperature anymore</Message>
+		</Event>
+		<Event>
+			<Id>16645</Id>
+			<Message LcId="1031">Unterspannung E-Bus Versorgung</Message>
+			<Message LcId="1033">Undervoltage E-Bus supply</Message>
+		</Event>
+		<Event>
+			<Id>16646</Id>
+			<Message LcId="1031">Überspannung E-Bus Versorgung</Message>
+			<Message LcId="1033">Overvoltage E-Bus supply</Message>
+		</Event>
+		<Event>
+			<Id>18190</Id>
+			<Message LcId="1031">Übertemperatur im Gerät</Message>
+			<Message LcId="1033">Overtemperature in device</Message>
+		</Event>
+		<Event>
+			<Id>33032</Id>
+			<Message LcId="1031">Selbsttest wurde mit Fehler abgeschlossen (0x{0,X}{1,X}). Gerät nicht ok.</Message>
+			<Message LcId="1033">Selftest completed with error result (0x{0,X}{1,X}). Device not ok.</Message>
+		</Event>
+		<Event>
+			<Id>33077</Id>
+			<Message LcId="1031"><![CDATA[Zykluszeit zu klein. In der Betriebsart SM Synchron muss die Zykluszeit >= 200µs betragen!]]></Message>
+			<Message LcId="1033"><![CDATA[Cycletime too short. In SM Synchronous mode the cycletime has to be >= 200µs!]]></Message>
+		</Event>
+		<Event>
+			<Id>33078</Id>
+			<Message LcId="1031">Konfigurationsfehler: Ungültige SYNC0 Zyklus Zeit</Message>
+			<Message LcId="1033">Configuration error: invalid SYNC0 cycle time</Message>
+		</Event>
+		<Event>
+			<Id>33821</Id>
+			<Message LcId="1031">Interner Hardwarefehler des Kanals {0}: 0x{1,X}</Message>
+			<Message LcId="1033">Internal hardware error of channel {0}: 0x{1,X}</Message>
+		</Event>
+		<Event>
+			<Id>34177</Id>
+			<Message LcId="1031">Leitungsbruch an Kanal {0} detektiert</Message>
+			<Message LcId="1033">Channel {0} detected a wire break</Message>
+		</Event>
+		<Event>
+			<Id>34178</Id>
+			<Message LcId="1031">Kurzschluss an Kanal {0}</Message>
+			<Message LcId="1033">Short circuit of channel {0}</Message>
+		</Event>
+		<Event>
+			<Id>34560</Id>
+			<Message LcId="1031">Interface von Kanal {0} ist nicht abgeglichen</Message>
+			<Message LcId="1033">Interface of channel {0} is not calibrated</Message>
+		</Event>
+		<Event>
+			<Id>34561</Id>
+			<Message LcId="1031">Betriebslaufzeit wurde manipuliert</Message>
+			<Message LcId="1033">Operatingtime was manipulated</Message>
+		</Event>
+		<Event>
+			<Id>34562</Id>
+			<Message LcId="1031">Oversampling Einstellung des Kanals {0} ist nicht möglich</Message>
+			<Message LcId="1033">Oversampling setting of channel {0} is not possible</Message>
+		</Event>
+		<Event>
+			<Id>34565</Id>
+			<Message LcId="1031"><![CDATA[Prozessorauslastung zu hoch (>= 100%)]]></Message>
+			<Message LcId="1033"><![CDATA[Processor usage too high (>= 100%)]]></Message>
+		</Event>
+		<Event>
+			<Id>34566</Id>
+			<Message LcId="1031">Kanal {0} in Sättigung</Message>
+			<Message LcId="1033">Channel {0} in saturation</Message>
+		</Event>
+		<Event>
+			<Id>34567</Id>
+			<Message LcId="1031">Kanalüberlastung (Kanal {0})</Message>
+			<Message LcId="1033">Channel overload (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>34568</Id>
+			<Message LcId="1031">Überlastzeit wurde manipuliert (Kanal {0})</Message>
+			<Message LcId="1033">Overloadtime was manipulated (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>34569</Id>
+			<Message LcId="1031">Sättigungszeit wurde manipuliert (Kanal {0})</Message>
+			<Message LcId="1033">Saturationtime was manipulated (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>34570</Id>
+			<Message LcId="1031">Messbereichsfehler des Kanals {0}</Message>
+			<Message LcId="1033">Range error of channel {0}</Message>
+		</Event>
+		<Event>
+			<Id>34571</Id>
+			<Message LcId="1031">Kein ADC Takt vorhangen</Message>
+			<Message LcId="1033">No ADC clock</Message>
+		</Event>
+		<Event>
+			<Id>34572</Id>
+			<Message LcId="1031">Übertemperaturzeit wurde manipuliert (Kanal {0})</Message>
+			<Message LcId="1033">Overtemperaturetime was manipulated (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>34573</Id>
+			<Message LcId="1031">Fehler bei der analogen Spannung: 0x{0,X}</Message>
+			<Message LcId="1033">Error analog voltage supply: 0x{0,X}</Message>
+		</Event>
+		<Event>
+			<Id>34576</Id>
+			<Message LcId="1031">DC Bias Spannung zu niedrig (Kanal {0})</Message>
+			<Message LcId="1033">DC Bias voltage too low (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>34577</Id>
+			<Message LcId="1031">DC Bias Spannung zu hoch (Kanal {0})</Message>
+			<Message LcId="1033">DC Bias voltage too high (channel {0})</Message>
+		</Event>
+		<Event>
+			<Id>34578</Id>
+			<Message LcId="1031">Messfehler in Kanal {0} aufgrund von fehlerhaften Kanal {1}</Message>
+			<Message LcId="1033">Measurement error of channel {0} due to error of channel {1}</Message>
+		</Event>
+		<Property>
+			<Name>DisplayTxtId</Name>
+			<Value>true</Value>
+		</Property>
+	</Source>
+</TcEventSources>

@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="PRG_FileLogger" Id="{2c2df95d-219a-4cf8-8822-b07cbb83b944}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_FileLogger
+VAR
+    // Start/Stop edge tespiti
+    bLogStartOld   : BOOL := FALSE;
+    bLogStopOld    : BOOL := FALSE;
+
+    // Saat için
+    fbLocalTime    : Tc2_Utilities.FB_LocalSystemTime;
+    tsNow          : TIMESTRUCT;
+
+    // Dosya FB'leri
+    fbOpen         : FB_FileOpen;
+    fbWrite        : FB_FileWrite;
+    fbClose        : FB_FileClose;
+    hFile          : UINT := 0;
+
+    // State machine
+    fileState      : INT := 0;   // 0: idle, 10: open, 30: log, 90: close
+    writeState     : INT := 0;   // 0: idle, 1: start write, 2: wait
+
+    // Chunk ayarları
+    idx            : INT;        // buffer index
+    iSens          : UINT;       // sensör index (1..C_NUM_SENSORS)
+    chunkCount     : UINT := 0;  // bu chunk'ta kaç satır var
+    C_CHUNK_SIZE   : UINT := 5; // her write'ta max 10 sample (65 sensörle yeterli)
+    sTmp           : STRING(2048); // tek satırlık küçük string
+	sHeader 	   : STRING(1024);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// =============================
+// PLC saatini sürekli güncelle
+// =============================
+fbLocalTime(bEnable := TRUE);
+fbLocalTime();
+IF fbLocalTime.bValid THEN
+    tsNow := fbLocalTime.systemTime;
+END_IF;
+
+
+// =============================
+// Start / Stop edge detect
+// =============================
+IF g_bLogStart AND NOT bLogStartOld THEN
+    // Yeni log başlat
+    g_bLogging       := TRUE;
+    g_epochMs        := 0;
+    g_wrIndex        := 0;
+    g_rdIndex        := 0;
+    g_bufferOverflow := FALSE;
+
+    // Dosya ismi: GGAAYY-SAAT_DAK_SANIYE.csv
+    g_sFileName := UINT_TO_STRING(tsNow.wDay);
+    g_sFileName := CONCAT(g_sFileName, UINT_TO_STRING(tsNow.wMonth));
+    g_sFileName := CONCAT(g_sFileName, UINT_TO_STRING(tsNow.wYear MOD 100));
+    g_sFileName := CONCAT(g_sFileName, '-');
+    g_sFileName := CONCAT(g_sFileName, UINT_TO_STRING(tsNow.wHour));
+    g_sFileName := CONCAT(g_sFileName, '_');
+    g_sFileName := CONCAT(g_sFileName, UINT_TO_STRING(tsNow.wMinute));
+    g_sFileName := CONCAT(g_sFileName, '_');
+    g_sFileName := CONCAT(g_sFileName, UINT_TO_STRING(tsNow.wSecond));
+    g_sFileName := CONCAT(g_sFileName, '.csv');
+
+    g_sPath := CONCAT(g_sBasePath, g_sFileName);
+
+    g_headerPending := TRUE;
+    g_lineReady     := FALSE;
+    writeState      := 0;
+
+    fileState := 10;        // dosya açma sekansı
+END_IF;
+
+IF g_bLogStop AND NOT bLogStopOld THEN
+    // Sadece örnek almayı kes – buffer boşalana kadar dosya açık kalacak
+    g_bLogging := FALSE;
+END_IF;
+
+bLogStartOld := g_bLogStart;
+bLogStopOld  := g_bLogStop;
+
+
+// =============================
+// DOSYA / YAZMA STATE MACHINE
+// =============================
+CASE fileState OF
+
+    // ------------------------------------------------
+    // 0: IDLE – hiçbir şey yapma
+    // ------------------------------------------------
+    0:
+        ;
+
+    // ------------------------------------------------
+    // 10: Dosyayı aç (WRITE + TEXT)
+    // ------------------------------------------------
+    10:
+        fbOpen.sNetId    := '';
+        fbOpen.sPathName := g_sPath;
+        fbOpen.nMode     := FOPEN_MODEWRITE OR FOPEN_MODETEXT;
+        fbOpen.bExecute  := TRUE;
+        fbOpen();
+        fbOpen.bExecute  := FALSE;
+        fileState := 11;
+
+    11:
+        fbOpen();
+        IF NOT fbOpen.bBusy THEN
+            IF fbOpen.bError THEN
+                fileState := 0;          // açılamadı
+            ELSE
+                hFile := fbOpen.hFile;
+                fileState := 30;         // logging state
+            END_IF;
+        END_IF;
+
+
+    // ------------------------------------------------
+    // 30: LOGGING – header + buffer satırlarını CHUNK halinde yaz
+    // ------------------------------------------------
+    30:
+        // ---- A) Yazma state'i (header veya chunk) ----
+        CASE writeState OF
+            0: // idle, yazılacak chunk varsa başlat
+                IF g_lineReady THEN
+                    writeState := 1;
+                END_IF;
+
+            1: // write başlat
+                fbWrite.sNetId     := '';
+                fbWrite.hFile      := hFile;
+                fbWrite.pWriteBuff := ADR(g_sLine);
+                fbWrite.cbWriteLen := g_bytesToWrite;
+                fbWrite.bExecute   := TRUE;
+                fbWrite();
+                fbWrite.bExecute   := FALSE;
+                writeState := 2;
+
+            2: // write bitmesini bekle
+                fbWrite();
+                IF NOT fbWrite.bBusy THEN
+                    // istersen fbWrite.bError da kontrol edebilirsin
+                    g_lineReady  := FALSE;
+                    writeState   := 0;
+                END_IF;
+        END_CASE;
+
+		// ---- B) Yazılacak chunk yoksa sıradakini hazırla ----
+		IF (writeState = 0) AND (NOT g_lineReady) THEN
+		
+			// ---- Header satırı yazılmadıysa önce onu oluştur ----
+			IF g_headerPending THEN
+				// Header: TimeMs,Value1,Value2,...,ValueN
+				sHeader := 'TimeMs';
+				FOR iSens := 1 TO C_NUM_SENSORS DO
+					sHeader := CONCAT(sHeader, ',');
+					sHeader := CONCAT(sHeader, 'Value');
+					sHeader := CONCAT(sHeader, UINT_TO_STRING(iSens));
+				END_FOR;
+				sHeader := CONCAT(sHeader, '$N');  // satır sonu (tek newline)
+		
+				// Header'ı g_sLine'a kopyala ve yazmaya hazır hale getir
+				g_sLine        := sHeader;
+				g_bytesToWrite := TO_UDINT(LEN(g_sLine));
+				g_lineReady    := TRUE;
+				g_headerPending := FALSE;
+		
+			ELSE
+				// Buffer'da veri var mı?
+				g_bufferUsed := g_wrIndex - g_rdIndex;
+				IF g_bufferUsed > 0 THEN
+					// Yeni chunk’ı oluştur
+					g_sLine    := '';         // chunk string’i sıfırla
+					chunkCount := 0;
+		
+					WHILE (chunkCount < C_CHUNK_SIZE) AND (g_rdIndex < g_wrIndex) DO
+						idx := UDINT_TO_INT(g_rdIndex MOD C_BUFFER_SIZE);
+		
+						// Tek satırı sTmp'ye kur: TimeMs,Val1,...,ValN
+						sTmp := UDINT_TO_STRING(g_aTimeBuffer[idx]);   // TimeMs
+		
+						FOR iSens := 1 TO C_NUM_SENSORS DO
+							sTmp := CONCAT(sTmp, ',');
+							sTmp := CONCAT(sTmp, LREAL_TO_STRING(g_aValBuffer[idx, iSens]));
+						END_FOR;
+		
+						sTmp := CONCAT(sTmp, '$N');      // satır sonu
+		
+						// g_sLine'a sığacak mı?
+						IF (LEN(g_sLine) + LEN(sTmp)) < 16000 THEN
+							g_sLine := CONCAT(g_sLine, sTmp);
+							g_rdIndex := g_rdIndex + 1;
+							chunkCount := chunkCount + 1;
+						ELSE
+							// Bu chunk doldu, döngüden çık
+							EXIT;
+						END_IF;
+					END_WHILE;
+		
+					// Eğer en az 1 satır eklediysek, yazılmaya hazır
+					IF chunkCount > 0 THEN
+						g_bytesToWrite := TO_UDINT(LEN(g_sLine));
+						g_lineReady    := TRUE;
+					END_IF;
+		
+				ELSE
+					// Buffer boş & logging de OFF ise → dosyayı kapat
+					IF NOT g_bLogging THEN
+						fileState := 90;
+					END_IF;
+				END_IF;
+			END_IF;
+		END_IF;
+
+
+    // ------------------------------------------------
+    // 90: Dosyayı kapat
+    // ------------------------------------------------
+    90:
+        fbClose.sNetId   := '';
+        fbClose.hFile    := hFile;
+        fbClose.bExecute := TRUE;
+        fbClose();
+        fbClose.bExecute := FALSE;
+        fileState := 91;
+
+    91:
+        fbClose();
+        IF NOT fbClose.bBusy THEN
+            hFile := 0;
+            fileState := 0;
+        END_IF;
+
+END_CASE;]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_FileLogger">
+      <LineId Id="3698" Count="115" />
+      <LineId Id="3965" Count="64" />
+      <LineId Id="3877" Count="20" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

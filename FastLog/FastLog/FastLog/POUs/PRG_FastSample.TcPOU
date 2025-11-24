@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="PRG_FastSample" Id="{bcd25808-2b44-479f-8b34-42d84180db95}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_FastSample
+VAR
+    idxBuf : INT;
+    iSens  : UINT;
+
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF g_bLogging THEN
+	    // 1 ms geçti
+    g_epochMs := g_epochMs + 1;
+
+    // TODO: sensörleri oku -> g_arCurrentValues[...] doldur
+    // Örnek:
+    g_arCurrentValues[1]  := DINT_TO_LREAL(SENSOR_LIST.AInput_1);
+	g_arCurrentValues[2]  := DINT_TO_LREAL(SENSOR_LIST.AInput_2);
+	g_arCurrentValues[3]  := DINT_TO_LREAL(SENSOR_LIST.AInput_3);
+	g_arCurrentValues[4]  := DINT_TO_LREAL(SENSOR_LIST.AInput_4);
+	g_arCurrentValues[5]  := DINT_TO_LREAL(SENSOR_LIST.AInput_5);
+	g_arCurrentValues[6]  := DINT_TO_LREAL(SENSOR_LIST.AInput_6);
+	g_arCurrentValues[7]  := DINT_TO_LREAL(SENSOR_LIST.AInput_7);
+	g_arCurrentValues[8]  := DINT_TO_LREAL(SENSOR_LIST.AInput_8);
+	g_arCurrentValues[9]  := DINT_TO_LREAL(SENSOR_LIST.AInput_9);
+	g_arCurrentValues[10] := DINT_TO_LREAL(SENSOR_LIST.AInput_10);
+	
+	g_arCurrentValues[11] := DINT_TO_LREAL(SENSOR_LIST.AInput_11);
+	g_arCurrentValues[12] := DINT_TO_LREAL(SENSOR_LIST.AInput_12);
+	g_arCurrentValues[13] := DINT_TO_LREAL(SENSOR_LIST.AInput_13);
+	g_arCurrentValues[14] := DINT_TO_LREAL(SENSOR_LIST.AInput_14);
+	g_arCurrentValues[15] := DINT_TO_LREAL(SENSOR_LIST.AInput_15);
+	g_arCurrentValues[16] := DINT_TO_LREAL(SENSOR_LIST.AInput_16);
+	g_arCurrentValues[17] := DINT_TO_LREAL(SENSOR_LIST.AInput_17);
+	g_arCurrentValues[18] := DINT_TO_LREAL(SENSOR_LIST.AInput_18);
+	g_arCurrentValues[19] := DINT_TO_LREAL(SENSOR_LIST.AInput_19);
+	g_arCurrentValues[20] := DINT_TO_LREAL(SENSOR_LIST.AInput_20);
+	
+	g_arCurrentValues[21] := DINT_TO_LREAL(SENSOR_LIST.AInput_21);
+	g_arCurrentValues[22] := DINT_TO_LREAL(SENSOR_LIST.AInput_22);
+	g_arCurrentValues[23] := DINT_TO_LREAL(SENSOR_LIST.AInput_23);
+	g_arCurrentValues[24] := DINT_TO_LREAL(SENSOR_LIST.AInput_24);
+	g_arCurrentValues[25] := DINT_TO_LREAL(SENSOR_LIST.AInput_25);
+	g_arCurrentValues[26] := DINT_TO_LREAL(SENSOR_LIST.AInput_26);
+	g_arCurrentValues[27] := DINT_TO_LREAL(SENSOR_LIST.AInput_27);
+	g_arCurrentValues[28] := DINT_TO_LREAL(SENSOR_LIST.AInput_28);
+	g_arCurrentValues[29] := DINT_TO_LREAL(SENSOR_LIST.AInput_29);
+	g_arCurrentValues[30] := DINT_TO_LREAL(SENSOR_LIST.AInput_30);
+	
+	g_arCurrentValues[31] := DINT_TO_LREAL(SENSOR_LIST.AInput_31);
+	g_arCurrentValues[32] := DINT_TO_LREAL(SENSOR_LIST.AInput_32);
+	g_arCurrentValues[33] := DINT_TO_LREAL(SENSOR_LIST.AInput_33);
+	g_arCurrentValues[34] := DINT_TO_LREAL(SENSOR_LIST.AInput_34);
+	g_arCurrentValues[35] := DINT_TO_LREAL(SENSOR_LIST.AInput_35);
+	g_arCurrentValues[36] := DINT_TO_LREAL(SENSOR_LIST.AInput_36);
+	g_arCurrentValues[37] := DINT_TO_LREAL(SENSOR_LIST.AInput_37);
+	g_arCurrentValues[38] := DINT_TO_LREAL(SENSOR_LIST.AInput_38);
+	g_arCurrentValues[39] := DINT_TO_LREAL(SENSOR_LIST.AInput_39);
+	g_arCurrentValues[40] := DINT_TO_LREAL(SENSOR_LIST.AInput_40);
+	
+	g_arCurrentValues[41] := DINT_TO_LREAL(SENSOR_LIST.AInput_41);
+	g_arCurrentValues[42] := DINT_TO_LREAL(SENSOR_LIST.AInput_42);
+	g_arCurrentValues[43] := DINT_TO_LREAL(SENSOR_LIST.AInput_43);
+	g_arCurrentValues[44] := DINT_TO_LREAL(SENSOR_LIST.AInput_44);
+	g_arCurrentValues[45] := DINT_TO_LREAL(SENSOR_LIST.AInput_45);
+	g_arCurrentValues[46] := DINT_TO_LREAL(SENSOR_LIST.AInput_46);
+	g_arCurrentValues[47] := DINT_TO_LREAL(SENSOR_LIST.AInput_47);
+	g_arCurrentValues[48] := DINT_TO_LREAL(SENSOR_LIST.AInput_48);
+	g_arCurrentValues[49] := DINT_TO_LREAL(SENSOR_LIST.AInput_49);
+	g_arCurrentValues[50] := DINT_TO_LREAL(SENSOR_LIST.AInput_50);
+	
+	g_arCurrentValues[51] := DINT_TO_LREAL(SENSOR_LIST.AInput_51);
+	g_arCurrentValues[52] := DINT_TO_LREAL(SENSOR_LIST.AInput_52);
+	g_arCurrentValues[53] := DINT_TO_LREAL(SENSOR_LIST.AInput_53);
+	g_arCurrentValues[54] := DINT_TO_LREAL(SENSOR_LIST.AInput_54);
+	g_arCurrentValues[55] := DINT_TO_LREAL(SENSOR_LIST.AInput_55);
+	g_arCurrentValues[56] := DINT_TO_LREAL(SENSOR_LIST.AInput_56);
+	g_arCurrentValues[57] := DINT_TO_LREAL(SENSOR_LIST.AInput_57);
+	g_arCurrentValues[58] := DINT_TO_LREAL(SENSOR_LIST.AInput_58);
+	g_arCurrentValues[59] := DINT_TO_LREAL(SENSOR_LIST.AInput_59);
+	g_arCurrentValues[60] := DINT_TO_LREAL(SENSOR_LIST.AInput_60);
+    // g_arCurrentValues[2] := AI_Module.Ch2_Value;
+    // ...
+    // g_arCurrentValues[65] := ... ;
+
+    // Buffer doluluk kontrolü
+    g_bufferUsed := g_wrIndex - g_rdIndex;
+    IF g_bufferUsed < C_BUFFER_SIZE THEN
+        idxBuf := UDINT_TO_INT(g_wrIndex MOD C_BUFFER_SIZE);
+
+        // Zamanı yaz
+        g_aTimeBuffer[idxBuf] := g_epochMs;
+
+        // Bütün sensörleri aynı sample index’e yaz
+        FOR iSens := 1 TO C_NUM_SENSORS DO
+            g_aValBuffer[idxBuf, iSens] := g_arCurrentValues[iSens];
+        END_FOR;
+
+        g_wrIndex := g_wrIndex + 1;
+    ELSE
+        g_bufferOverflow := TRUE;   // logger yetişemiyor
+    END_IF;
+END_IF;]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_FastSample">
+      <LineId Id="68" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="70" Count="3" />
+      <LineId Id="112" Count="63" />
+      <LineId Id="74" Count="21" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
