@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <POU Name="F_TimeStructToUnixMs" Id="{5647077a-16bc-4aa4-a7f6-ddb23d0c0461}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_TimeStructToUnixMs : ULINT
+VAR_INPUT
+    ts : TIMESTRUCT;
+END_VAR
+VAR
+    y         : UDINT;
+    m         : UDINT;
+    d         : UDINT;
+    days      : ULINT;
+    i         : UDINT;
+    leap      : BOOL;
+    mdays     : ARRAY[1..12] OF UDINT := [31,28,31,30,31,30,31,31,30,31,30,31];
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// yılı 2000+ kabul ediyoruz (TIMESTRUCT wYear zaten 4 haneli)
+y := TO_UDINT(ts.wYear);
+m := TO_UDINT(ts.wMonth);
+d := TO_UDINT(ts.wDay);
+
+// Leap year kontrolü
+leap := ( (y MOD 4 = 0) AND (y MOD 100 <> 0) ) OR (y MOD 400 = 0);
+
+// 1970'ten önceyse 0 dön (fazla uğraşmayalım)
+IF y < 1970 THEN
+    F_TimeStructToUnixMs := 0;
+    RETURN;
+END_IF;
+
+// year days
+days := 0;
+FOR i := 1970 TO y-1 DO
+    IF ( (i MOD 4 = 0) AND (i MOD 100 <> 0) ) OR (i MOD 400 = 0) THEN
+        days := days + 366;
+    ELSE
+        days := days + 365;
+    END_IF
+END_FOR
+
+// month days
+FOR i := 1 TO m-1 DO
+    days := days + mdays[i];
+    IF (i = 2) AND leap THEN
+        days := days + 1;
+    END_IF
+END_FOR
+
+// day index
+days := days + (d - 1);
+
+// ms
+F_TimeStructToUnixMs :=
+    days * 86400000
+  + TO_ULINT(ts.wHour)       * 3600000
+  + TO_ULINT(ts.wMinute)     * 60000
+  + TO_ULINT(ts.wSecond)     * 1000
+  + TO_ULINT(ts.wMilliseconds);]]></ST>
+    </Implementation>
+    <LineIds Name="F_TimeStructToUnixMs">
+      <LineId Id="16" Count="7" />
+      <LineId Id="55" Count="32" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

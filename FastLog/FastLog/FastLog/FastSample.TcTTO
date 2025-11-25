@@ -3,7 +3,7 @@
   <Task Name="FastSample" Id="{f341392c-00d5-4611-a1d9-02a76dee28a0}">
     <!--CycleTime in micro seconds.-->
     <CycleTime>1000</CycleTime>
-    <Priority>6</Priority>
+    <Priority>10</Priority>
     <PouCall>
       <Name>PRG_FastSample</Name>
     </PouCall>

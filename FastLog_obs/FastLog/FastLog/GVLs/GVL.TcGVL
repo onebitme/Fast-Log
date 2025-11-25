@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
+  <GVL Name="GVL" Id="{9d3e762c-652e-46cf-bb07-2ecaaa2ac8c8}">
+    <Declaration><![CDATA[VAR_GLOBAL CONSTANT
+	C_BUFFER_SIZE : UDINT := 10000;
+	C_NUM_SENSORS : UINT := 65;
+END_VAR
+
+VAR_GLOBAL
+	
+    // Start / Stop
+    g_bLogStart      : BOOL := FALSE;
+    g_bLogStop       : BOOL := FALSE;
+    g_bLogging       : BOOL := FALSE;
+
+    // Zaman
+    g_epochMs        : UDINT := 0;
+
+    // Ring buffer
+    g_aTimeBuffer    : ARRAY[0..C_BUFFER_SIZE-1] OF UDINT;
+    g_aValBuffer     : ARRAY[0..C_BUFFER_SIZE-1, 1..C_NUM_SENSORS] OF LREAL;
+
+    g_wrIndex        : UDINT := 0;
+    g_rdIndex        : UDINT := 0;
+    g_bufferUsed     : UDINT := 0;
+    g_bufferOverflow : BOOL  := FALSE;
+
+    // Sensörlerin o anki değerleri (Sampler bunları dolduracak)
+    g_arCurrentValues : ARRAY[1..C_NUM_SENSORS] OF LREAL;
+
+    // Dosya / isim
+    g_sBasePath      : T_MaxString := 'D:\';
+    g_sFileName      : STRING(64);
+    g_sPath          : STRING(320);
+
+    // Logger string buffer
+    g_headerPending  : BOOL    := FALSE;
+    g_lineReady      : BOOL    := FALSE;
+    g_sLine          : STRING(16384);   // BÜYÜT -> chunk + 65 sensör için
+    g_bytesToWrite   : UDINT;
+	
+	
+END_VAR
+
+	
+	
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

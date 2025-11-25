@@ -2,48 +2,47 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.15">
   <GVL Name="GVL" Id="{9d3e762c-652e-46cf-bb07-2ecaaa2ac8c8}">
     <Declaration><![CDATA[VAR_GLOBAL CONSTANT
-	C_BUFFER_SIZE : UDINT := 10000;
-	C_NUM_SENSORS : UINT := 65;
+    C_BUFFER_SIZE : UDINT := 100000;   // buffer satır sayısı (ihtiyacına göre büyüt)
+    C_NUM_SENSORS : UINT  := 60;       // sende 60 sensör var demiştin
 END_VAR
+
 
 VAR_GLOBAL
-	
-    // Start / Stop
-    g_bLogStart      : BOOL := FALSE;
-    g_bLogStop       : BOOL := FALSE;
-    g_bLogging       : BOOL := FALSE;
+    // Start/Stop
+    g_bLogStart       : BOOL := FALSE;
+    g_bLogStop        : BOOL := FALSE;
+    g_bLogging        : BOOL := FALSE;
 
-    // Zaman
-    g_epochMs        : UDINT := 0;
+    // Epoch ms (sampler doldurur)
+    g_epochMs        : ULINT := 0;
+	g_epochBaseMs    : ULINT := 0;   // log start anındaki gerçek epoch(ms)
+    g_epochOffsetMs  : UDINT := 0; 
 
     // Ring buffer
-    g_aTimeBuffer    : ARRAY[0..C_BUFFER_SIZE-1] OF UDINT;
-    g_aValBuffer     : ARRAY[0..C_BUFFER_SIZE-1, 1..C_NUM_SENSORS] OF LREAL;
+    g_aTimeBuffer     : ARRAY[0..C_BUFFER_SIZE-1] OF ULINT;
+    g_aValBuffer      : ARRAY[0..C_BUFFER_SIZE-1, 1..C_NUM_SENSORS] OF LREAL;
 
-    g_wrIndex        : UDINT := 0;
-    g_rdIndex        : UDINT := 0;
-    g_bufferUsed     : UDINT := 0;
-    g_bufferOverflow : BOOL  := FALSE;
+    g_wrIndex         : UDINT := 0;
+    g_rdIndex         : UDINT := 0;
+    g_bufferUsed      : UDINT := 0;
+    g_bufferOverflow  : BOOL  := FALSE;
 
-    // Sensörlerin o anki değerleri (Sampler bunları dolduracak)
+    // Sampler burayı dolduracak
     g_arCurrentValues : ARRAY[1..C_NUM_SENSORS] OF LREAL;
 
-    // Dosya / isim
-    g_sBasePath      : T_MaxString := 'D:\';
-    g_sFileName      : STRING(64);
-    g_sPath          : STRING(320);
+    // Dosya yolu / isim
+    g_sBasePath       : STRING(255) := 'D:\';   // istediğin klasör
+    g_sFileName       : STRING(64);
+    g_sPath           : STRING(320);
 
-    // Logger string buffer
-    g_headerPending  : BOOL    := FALSE;
-    g_lineReady      : BOOL    := FALSE;
-    g_sLine          : STRING(16384);   // BÜYÜT -> chunk + 65 sensör için
-    g_bytesToWrite   : UDINT;
-	
-	
+    // Yazma kontrol
+    g_headerPending   : BOOL := FALSE;
+    g_lineReady       : BOOL := FALSE;
+
+    // Chunk buffer (data satırları buraya toplanır)
+    g_sLine           : STRING(16384);
+
 END_VAR
-
-	
-	
 ]]></Declaration>
   </GVL>
 </TcPlcObject>

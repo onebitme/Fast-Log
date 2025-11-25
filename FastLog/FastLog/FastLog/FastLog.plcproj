@@ -32,6 +32,9 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
+    <Compile Include="POUs\F_TimeStructToUnixMs.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\PRG_FileLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
